@@ -1,53 +1,123 @@
-//
-//  Created by Josh Lewis on 9/10/17.
-//  Copyright © 2017 Josh Lewis. All rights reserved.
-//
+/* Do Programming Project 2 on page 611. You may watch the video note for 
+ * Programming Project 1 on page 611 to get some idea. Then try to finish
+ * independently by complete this sample file.
+ * 
+ * Author: Josh Lewis
+ * Version: 2/7/2018
+ */
 
 #include <iostream>
 using namespace std;
 
-// Basal Metabolic Rate Calculator
-
-int main(){
+class CDAccount
+{
+public:
+    CDAccount();
+    CDAccount(double new_balance, double new_interest_rate, int new_term);
+    double get_initial_balance() const;
+    double get_balance_at_maturity() const;
+    double get_interest_rate() const;
+    int get_term() const;
+    void input(istream& in);
+    void output(ostream& out);
     
-    int weight, height, age;
-    char gender;
-    char choice = 'Y';
+private:
+    int dollar;
+    int cent;
+    double interest_rate;
+    int term; // months until maturity
+};
+
+int main()
+{
+    
+    char answer;
+    CDAccount account;
+    
     
     do {
-        cout << "Please enter your weight in pounds: ";
-        cin >> weight;
-        cout << "Please enter your height in inches: ";
-        cin >> height;
-        cout << "Please enter your age in years: ";
-        cin >> age;
-        cout << "Please enter your gender (M/F): ";
-        cin >> gender;
-        
-        // Checks for valid gender entry
-        if(gender != 'M' && gender != 'm' && gender != 'F' && gender != 'f'){
-            cout << "Please re-enter a valid gender selection, M or F: ";
-            cin >> gender;
+        cout << "Please enter your account information below: ";
+        account.input(cin);
+        account.output(cout);
+        cout << "Would you like to run another calculation? (Y/N): ";
+        cin >> answer;
+        while (answer != 'y' && answer != 'Y' && answer != 'n' && answer != 'N')
+        {
+            cout << "Not a valid entry. Please enter Y or N: ";
+            cin >> answer;
         }
         
-        double femBMR = 655 + 4.3 * weight + 4.7 * height - 4.7 * age; // Equation for female BMR
-        double maleBMR = 66 + 6.3 * weight + 12.9 * height - 6.8 * age; // Equation for male BMR
-        
-        // Female output
-        if(gender == 'F' || gender == 'f'){
-            cout << "The number of daily calories needed for this woman to maintain her weight is: " << femBMR << ".\n";
-            cout << "Therefore, " << femBMR / 230 << " chocolate bars should be consumed each day to maintain her current weight.\n";
-            cout << "Would you like to repeat the calculation? (Y/N): ";
-            cin >> choice;
-        }
-        // Male output
-        if(gender == 'M' || gender == 'm'){
-            cout << "The number of daily calories needed for this man to maintain his weight is: " << maleBMR << ".\n";
-            cout << "Therefore, " << maleBMR / 230 << " chocolate bars should be consumed each day to maintain his current weight.\n";
-            cout << "Would you like to repeat the calculation? (Y/N): ";
-            cin >> choice;
-        }
-    } while (choice == 'Y' || choice == 'y');
+    } while (answer == 'Y' || answer == 'y');
     
+    if (answer == 'n' || answer == 'N')
+        cout << "Goodbye!";
+
     return 0;
+    
+    // You implement the test code here
+    // You may watch the video note to get the idea
+    // notice that user will only enter balance as a double value
+    // You may implement it as a menu oriented testing program
+    // which be able to test constructors, methods of CDAccount class
+}
+
+CDAccount::CDAccount()
+{
+    dollar = 0;
+    cent = 0;
+    interest_rate = 0;
+    term = 0;
+}
+
+CDAccount::CDAccount(double new_balance, double new_interest_rate, int new_term)
+{
+    dollar = (int) new_balance; // dollar is the interger part of balace
+    cent = (int) ((new_balance - dollar) * 100); // cent is the fraction part * 100
+    interest_rate = new_interest_rate;
+    term = new_term;
+}
+
+double CDAccount::get_initial_balance() const
+{
+    return dollar + (cent / 100.0);
+}
+
+double CDAccount::get_balance_at_maturity() const
+{
+    double balance = get_initial_balance();
+    return balance * (1 + interest_rate * term) / 12.0;
+}
+
+double CDAccount::get_interest_rate() const
+{
+    return interest_rate;
+}
+
+int CDAccount::get_term() const
+{
+    return term;
+}
+
+void CDAccount::input(istream& in)
+{
+    double balance;
+    cout << "\n\nEnter the account balance: $ ";
+    in >> balance; // get initial balance from user
+    
+    // convert balance to dollars and cents since this is how balance stored
+    dollar = (int) balance; // dollar is the interger part of balace
+    cent = (int) ((balance - dollar)*100); // cent is the fraction part * 100
+    cout << "Enter the interest rate as a decimal vallue (20% entered as 0.20): ";
+    in >> interest_rate; // get interest rate from user
+    cout << "Enter the term as the number of months: ";
+    in >> term; // get term from user
+}
+
+void CDAccount::output(ostream& out)
+{
+    out << "Account information:\n";
+    out << "Initial balance: $" << get_initial_balance() << endl;
+    out << "Interest rate: $" << get_interest_rate() << endl;
+    out << "Term: " << get_term() << endl;
+    out << "The balance at maturity is: $" << get_balance_at_maturity() << endl;
 }

@@ -1,200 +1,163 @@
-//
-//  JoshLewisProj5.cpp
-//
-//
-//  Created by Josh Lewis on 10/16/17.
-//
-//
-
-// Day of the Week Calendar Program
+// This is the implementation file of project 5
+// Name: Josh Lewis
+// Email: jblewis@mail.fhsu.edu
+// Date: 3/17/2018
 
 #include <iostream>
+#include "CSCI361Proj5.h"
+
 using namespace std;
+using namespace FHSULINKEDLIST;
 
-void testMenu();
-// postcondition: the test menu is displayed for choice
+size_t list_length(const Node* head_ptr)
+{
+    if(head_ptr == NULL) { return 0; }
+    size_t count = 0;
+    const Node* current_ptr;
+    for(current_ptr = head_ptr; current_ptr != NULL; current_ptr = current_ptr ->link) {
+        count++;
+    }
+    return count;
+}
 
-bool isLeapYear(int year);
+void list_head_insert(Node*& head_ptr, const Node::Item& entry)
+{
+    Node* newNode = new Node;
+    newNode -> data = entry;
+    newNode -> link = head_ptr; // make new node's link the old head_ptr
+    head_ptr = newNode; // head points to new node
+}
 
-int getCenturyValue(int year);
+void list_insert(Node* previous_ptr, const Node::Item& entry)
+{
+    if(previous_ptr == NULL) {return;}
+    Node* newNode = new Node;
+    newNode -> data = entry;
+    newNode -> link = previous_ptr -> link;
+    previous_ptr -> link = newNode;
+}
 
-int getYearValue(int year);
-
-int getMonthValue(int month, int year);
-
-string dayOfWeek(int month, int day, int year);
-// precondition: day has integer value 0, 1, 2, 3, 4, 5, or 6
-// postcondition: the name of the day of week is returned; 1, then MONDAY is returned and so on.
-
-int main() {
-    
-    int choice;
-    int day, month, year;
-    char slash = '/';
-    
-    do {
-        testMenu();
-        
-        cout << "Please choose from menu: ";
-        cin >> choice;
-        switch(choice){
-            case 1: // check if a given year is leap year
-                cout << "Please enter a year: ";
-                cin >> year;
-                if(isLeapYear(year))
-                    cout << "Year " << year << "is a leap year" << endl;
-                else
-                    cout << "Year " << year << "is NOT a leap year" << endl;
-                break;
-            case 2: // calculate the century value of a given year
-                cout << "Please enter a year: ";
-                cin >> year;
-                cout << "The century value is: " << getCenturyValue(year) << endl;
-                break;
-            case 3: // calculate the year value in a given year
-                cout << "Please enter a year: ";
-                cin >> year;
-                cout << "The year value is: " << getYearValue(year) << endl;
-                break;
-            case 4: // calculate the month value of a given month in a given year
-                cout << "Please enter a month and year (M/YYYY): ";
-                cin >> month >> slash >> year;
-                cout << "The month is: " << getMonthValue(month, year) << endl;
-                break;
-            case 5: // calculate the day of week of a given date
-                cout << "Please enter a month, day, and year (M/DD/YYYY): ";
-                cin >> month >> slash >> day >> slash >> year;
-                cout << "The day of the week is: " << dayOfWeek(month, day, year) << endl;
-                break;
-            case 6: // print out the name of a given day of week
-                cout << "Please enter a number for the day of the week (0 for Sunday, 1 for Monday, etc): ";
-                cin >> day;
-                cout << "The day of the week is: " << dayOfWeek(day) << endl;
-                break;
-            case 7:
-                cout << "Have you tested all functions yet? If not, please re-run the program.\n";
-                break;
-            default:
-                cout << "Sorry, that is not a valid option. Please choose from menu and try again.\n";
-                break;
+Node* list_search(Node* head_ptr, const Node::Item& target)
+{
+    for(; head_ptr != NULL; head_ptr = head_ptr -> link) {
+        if(head_ptr -> data == target) {
+            return head_ptr;
         }
-    } while (choice != 7);
-    
-    return 0;
+    }
+    return NULL;
 }
 
-// Displays test menu
-void testMenu(){
-    cout << "    *************************************" << endl;
-    cout << "    *           Test Menu               *" << endl;
-    cout << "    * 1. isLeapYear                     *" << endl;
-    cout << "    * 2. getCenturyValue                *" << endl;
-    cout << "    * 3. getYearValue                   *" << endl;
-    cout << "    * 4. getMonthValue                  *" << endl;
-    cout << "    * 5. dayOfWeek(month, day, year)    *" << endl;
-    cout << "    * 6. dayOfWeek(day)                 *" << endl;
-    cout << "    * 7. Quit                           *" << endl;
-    cout << "    *************************************" << endl;
+Node* list_locate(Node* head_ptr, size_t position)
+{
+    size_t i = 1;
+    for(; i < position && head_ptr != NULL; head_ptr = head_ptr -> link) {
+        i++;
+    }
+    return head_ptr;
 }
 
-// Determines whether or not it's Leap Year
-bool isLeapYear(int& year){
-    if(year % 400 == 0 || (year % 4 == 0 && year % 100 != 0))
-        return true;
-    else
-        return false;
+void list_head_remove(Node*& head_ptr)
+{
+    if(head_ptr == NULL) {
+        return; // If empty, do nothing
+    }
+    if(head_ptr -> link == NULL) {
+        delete head_ptr;
+        head_ptr = NULL;
+        return;
+    }
+    Node* remove_ptr = head_ptr;
+    head_ptr = remove_ptr -> link;
+    delete remove_ptr;
 }
 
-// Calculates Century
-int getCenturyValue(int& year){
-    int century = year / 100;
-    int remainder = century % 4;
-    return (3 - remainder) * 2;
+void list_remove(Node* previous_ptr)
+{
+    if(previous_ptr == NULL || previous_ptr -> link == NULL) {
+        return; // If empty, do nothing
+    }
+    Node* remove_ptr = previous_ptr -> link;
+    previous_ptr -> link = remove_ptr -> link;
+    delete remove_ptr;
 }
 
-// Calculates year value past century
-int getYearValue(int& year){
-    int decade = ((year / 10) % 10) + (year % 10);
-    return decade + (decade / 4);
-}
-
-// Returns name of month based on input
-int getMonthValue(int& month, int& year){
-    switch(month){
-        case 1: // January
-            if (isLeapYear(year) == true)
-                return 6;
-            else
-                return 0;
-            break;
-        case 2: // February
-            if (isLeapYear(year) == true)
-                return 2;
-            else
-                return 0;
-            break;
-        case 3: // March
-            return 3;
-            break;
-        case 4: // April
-            return 6;
-            break;
-        case 5: // May
-            return 1;
-            break;
-        case 6: // June
-            return 4;
-            break;
-        case 7: // July
-            return 6;
-            break;
-        case 8: // August
-            return 2;
-            break;
-        case 9: // September
-            return 5;
-            break;
-        case 10: // October
-            return 0;
-            break;
-        case 11: // November
-            return 3;
-            break;
-        case 12: // December
-            return 5;
-            break;
+void list_clear(Node*& head_ptr)
+{
+    while(head_ptr != NULL) {
+        list_head_remove(head_ptr);
     }
 }
 
-// Displays day of week based on date input
-string dayOfWeek(int month, int& day, int year){
-    cout << "Please enter day of the month: ";
-    cin >> day;
-    int sum = day + getMonthValue(month,year) + getYearValue(year) + getCenturyValue(year);
-    switch(sum % 7){
-        case 0:
-            return "Sunday";
-            break;
-        case 1:
-            return "Monday";
-            break;
-        case 2:
-            return "Tuesday";
-            break;
-        case 3:
-            return "Wednesday";
-            break;
-        case 4:
-            return "Thursday";
-            break;
-        case 5:
-            return "Friday";
-            break;
-        case 6:
-            return "Saturday";
-            break;
-        default:
-            return "Not a valid entry";
-            break;
+void list_copy(Node* source_ptr, Node*& head_ptr)
+{
+    if(source_ptr == NULL) { // if source empty, head_ptr = null
+        head_ptr = NULL;
+        return;
     }
+    head_ptr = NULL;
+    list_head_insert(head_ptr, source_ptr -> data);
+    source_ptr = source_ptr -> link;
+    Node* previous_ptr = head_ptr;
+    while(source_ptr != NULL){
+        list_insert(previous_ptr, source_ptr -> data);
+        source_ptr = source_ptr -> link;
+        previous_ptr = previous_ptr -> link;
+    }
+}
+
+size_t list_occurrences(Node* head_ptr, const Node::Item& target)
+{
+    size_t count = 0;
+    for(; head_ptr != NULL; head_ptr = head_ptr -> link) {
+        if(head_ptr -> data == target) {
+            count++;
+        }
+        return count;
+    }
+}
+
+void list_tail_attach(Node*& head_ptr, const Node::Item& entry)
+{
+    if(head_ptr == NULL) {
+        list_head_insert(head_ptr, entry);
+        return;
+    }
+    Node* tail_ptr = head_ptr;
+    while(tail_ptr -> link != NULL) {
+        tail_ptr = tail_ptr -> link;
+    }
+    list_insert(tail_ptr, entry);
+}
+
+void list_tail_remove(Node*& head_ptr)
+{
+    if(head_ptr == NULL) { return; }
+    if(head_ptr -> link == NULL) {
+        list_head_remove(head_ptr);
+        return;
+    }
+    Node* before_tail = head_ptr;
+    while (before_tail -> link -> link != NULL) {
+        before_tail = before_tail -> link;
+    }
+    list_remove(before_tail);
+}
+
+Node* list_copy_front(Node* source_ptr, size_t n)
+{
+    Node* head_ptr = NULL;
+    if(n == 0 || source_ptr == NULL) { // if there's nothing to copy
+        return head_ptr;
+    }
+    list_head_insert(head_ptr, source_ptr -> data);
+    size_t count = 1; // number copied
+    source_ptr = source_ptr -> link;
+    Node* previous_ptr = head_ptr;
+    while(source_ptr != NULL && count < n){
+        list_insert(previous_ptr, source_ptr -> data);
+        source_ptr = source_ptr -> link;
+        previous_ptr = previous_ptr -> link;
+        count++;
+    }
+    return head_ptr;
 }

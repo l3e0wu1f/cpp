@@ -1,63 +1,83 @@
-//
-//  JoshLewisProj9.cpp
-//
-//
-//  Created by Josh Lewis on 12/6//17.
-//
-//
+// This is the application file of Project 9: A database of books.
+// Name: Josh Lewis
+// Email: jblewis@mail.fhsu.edu
+// Date: 5/2/2018
 
 #include <iostream>
+#include <string>
+#include <cstdlib>
+#include <vector>
+#include <algorithm>
+#include "JoshLewisProj9.h"
+
 using namespace std;
+using namespace bookDataBase;
 
-int str_length(char s[], int start);
-// Recursive version of strlen.
-// It returns the length of the substring from s[start] to
-// the char before '\0',
-// inclusive. When str_length(s,0) is called,
-// the length of s is returned.
+void addNewBook(vector<Book> &bookdata);
+void printBooks(vector<Book> &bookdata);
+void sortBooks(vector<Book> &bookdata);
+void printMenu();
 
-int sum(int n);
-// Recursive version to calculate the sum of
-// 1 + 2 + .... + n
+int main()
 
-int main() {
-    char choice;
-    
-    do{
-        // test str_length function
-        char sentence[80];
-        cout << "Enter a sentence: ";
-        cin.getline(sentence, 80);
-        cout << "There are " << str_length(sentence,0) << " characters in the sentence, including white spaces." << endl;
-        
-        //test sum function
-        int n;
-        cout << "Enter a number: ";
-        cin >> n;
-        cout << "The sum of 1 + 2 + ... + " << n << " is: " << sum(n) << "." << endl;
-        
-        cout << "Do you want to have another run? Y/N: ";
+{
+    vector<Book> bookdata;
+    int choice;
+    do {
+        printMenu();
         cin >> choice;
-        while(choice != Y && choice != y && choice != N && choice != n){
-            cout << "Not a valid entry. Please type Y to continue or N to quit: ";
-            cin >> choice;
+        cin.ignore();
+        
+        switch(choice) {
+            case 1: addNewBook(bookdata);
+                break;
+            case 2: printBooks(bookdata);
+                break;
         }
-    } while(choice == 'Y' || choice == 'y');
+    } while(choice != 3);
     
-
-    cout << "Goodbye!";
     
     return 0;
+    
 }
 
-int str_length(char s[], int start){
-    if(s[start] == '\0') // start is the index of '\0'
-        return 0;
-    return 1 + str_length(s, start+1);
+void addNewBook(vector<Book> &bookdata)
+{
+    string newAuthor, newTitle, newDate;
+    
+    cout << "Enter author name: " << endl;
+    getline(cin, newAuthor);
+    
+    cout << "Enter book title: " << endl;
+    getline(cin, newTitle);
+    
+    cout << "Enter published date: " << endl;
+    getline(cin, newDate);
+    
+    Book b(newAuthor, newTitle, newDate);
+    bookdata.push_back(b);
 }
 
-int sum(int n){
-    if(n != 0)
-        return n + sum(n - 1);
-    return 0;
+void printBooks(vector<Book> &bookdata)
+{
+    sortBooks(bookdata);
+    cout << "The books entered so far, sorted by author: " << endl;
+    
+    for(int i = 0; i < bookdata.size; i++) {
+        cout << bookdata[i].getAuthor() << ", " << bookdata[i].getTitle << ", " <<
+        bookdata[i].getDate() << endl;
+    }
+}
+
+void sortBooks(vector<Book> &bookdata)
+{
+    sort(bookdata.begin(), bookdata.end());
+}
+
+void printMenu()
+{
+    cout << "Select from the following choices: " << endl;
+    cout << "1. Add new book to database" << endl;
+    cout << "2. Print books sorted by author" << endl;
+    cout << "3. Quit" << endl;
 }

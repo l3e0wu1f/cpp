@@ -1,183 +1,568 @@
-//
-//  JoshLewisProj3.cpp
-//  
-//
-//  Created by Josh Lewis on 9/22/17.
-//
-//
+/*
+ * CSCI 2: Project 3
+ * Author: Josh Lewis
+ * Created: 2/18/2018
+ */
 
 #include <iostream>
+#include <cmath>
+#include <cassert>
+
 using namespace std;
 
-// GAME OF 23
+class Fraction
+{
+public:
+	// constructor
+    
+	Fraction(int a, int b);
+    // generate a fraction which is a/b
+    
+	Fraction(int a);
+    // generate a fraction which is a/1
+    
+	Fraction();
+    // generate a fraction which is 0/1. i.e 0
 
-int main() {
+	// member functions
     
-    int x, total;
-    char choice;
-    cout << "Let's play a game of \"23\"!\n";
+	int get_numerator() const;
+    // return the numerator of the fraction
     
-do{
-    total = 23;
-    while (total > 0){
-    cout << "Enter the number of sticks you wish to pick: ";
-    cin >> x;
-    switch(x){
-// User picks 1 stick
-        case 1:
-            total -= x;
-            cout << "You picked 1 stick. " << total << " left.\n";
-            if (total > 4){
-                total -= (4 - x);
-                cout << "Computer picked 3 sticks. ";
-                cout << total << " left.\n",
-                cout << "Your turn. ";
-            }
-            else if (total >= 2 && total <= 4){
-                switch(total){
-                    case 2:
-                        total -= 1;
-                        cout << "Computer picked 1 stick. " << total << " left.\n";
-                        break;
-                    case 3:
-                        total -= 2;
-                        cout << "Computer picked 2 sticks. " << total << " left.\n";
-                        break;
-                    case 4:
-                        total -= 3;
-                        cout << "Computer picked 3 sticks. " << total << " left.\n";
-                        break;
-                }
-            }
-            else if (total == 1){
-                total -= 1;
-                cout << "Computer picked the last stick. You win!";
-                cout << "Do you want to play another game? <Y/N>: ";
-                cin >> choice;
-                if (choice != 'Y' && choice != 'y' && choice != 'N' && choice != 'n'){
-                    cout << "That is not a valid answer.";
-                    cout << " Do you want to play another game? <Y/N>: ";
-                    cin >> choice;
-                }
-            }
-            else{
-                cout << "You picked the last stick.\n";
-                cout << "Sorry, the computer beat you!\n";
-                cout << "Do you want to play another game? <Y/N>: ";
-                cin >> choice;
-                if (choice != 'Y' && choice != 'y' && choice != 'N' && choice != 'n'){
-                    cout << "That is not a valid answer.\n";
-                    cout << " Do you want to play another game? <Y/N>: ";
-                    cin >> choice;
-                }
-            }
-        break;
-            
-// User picks 2 sticks
-        case 2:
-            total -= x;
-            cout << "You picked 2 sticks. " << total << " left.\n";
-            if (total > 4){
-                total -= (4 - x);
-                cout << "Computer picked 2 sticks. ";
-                cout << total << " left.\n",
-                cout << "Your turn. ";
-            }
-            else if (total >= 2 && total <= 4){
-                switch(total){
-                    case 2:
-                        total -= 1;
-                        cout << "Computer picked 1 stick. " << total << " left.\n";
-                        break;
-                    case 3:
-                        total -= 2;
-                        cout << "Computer picked 2 sticks. " << total << " left.\n";
-                        break;
-                    case 4:
-                        total -= 3;
-                        cout << "Computer picked 3 sticks. " << total << " left.\n";
-                        break;
-                }
-            }
-            else if (total == 1){
-                total -= 1;
-                cout << "Computer picked the last stick. You win!\n";
-                cout << "Do you want to play another game? <Y/N>: ";
-                cin >> choice;
-                if (choice != 'Y' && choice != 'y' && choice != 'N' && choice != 'n'){
-                    cout << "That is not a valid answer.\n";
-                    cout << " Do you want to play another game? <Y/N>: ";
-                    cin >> choice;
-                }
-            }
-            else{
-                cout << "You picked the last stick.\n";
-                cout << "Sorry, the computer beat you!\n";
-                cout << "Do you want to play another game? <Y/N>: ";
-                cin >> choice;
-                if (choice != 'Y' && choice != 'y' && choice != 'N' && choice != 'n'){
-                    cout << "That is not a valid answer.\n";
-                    cout << " Do you want to play another game? <Y/N>: ";
-                    cin >> choice;
-                }
-            }
-        break;
-            
-// User picks 3 sticks
-        case 3:
-            total -= x;
-            cout << "You picked 3 sticks. " << total << " left.\n";
-                if (total > 4){
-                    total -= (4 - x);
-                    cout << "Computer picked 1 stick. ";
-                    cout << total << " left.\n",
-                    cout << "Your turn. ";
-                }
-                else if (total >= 2 && total <= 4)
-                    switch(total){
-                        case 2:
-                            total -= 1;
-                            cout << "Computer picked 1 stick. " << total << " left.\n";
-                            break;
-                        case 3:
-                            total -= 2;
-                            cout << "Computer picked 2 sticks. " << total << " left.\n";
-                            break;
-                        case 4:
-                            total -= 3;
-                            cout << "Computer picked 3 sticks. " << total << " left.\n";
-                            break;
-                    }
-                else if (total == 1){
-                    total -= 1;
-                    cout << "Computer picked the last stick. You win!\n";
-                    cout << "Do you want to play another game? <Y/N>: ";
-                    cin >> choice;
-                    if (choice != 'Y' && choice != 'y' && choice != 'N' && choice != 'n'){
-                        cout << "That is not a valid answer.\n";
-                        cout << " Do you want to play another game? <Y/N>: ";
-                        cin >> choice;
-                    }
-                }
-                else{
-                    cout << "You picked the last stick.\n";
-                    cout << "Sorry, the computer beat you!\n";
-                    cout << "Do you want to play another game? <Y/N>: ";
-                    cin >> choice;
-                    if (choice != 'Y' && choice != 'y' && choice != 'N' && choice != 'n'){
-                        cout << "That is not a valid answer.\n";
-                        cout << " Do you want to play another game? <Y/N>: ";
-                        cin >> choice;
-                    }
-                }
-        break;
-            
-        default:
-            cout << "Wrong number of sticks. You must choose values of 1, 2, or 3.\n";
-            continue;
-    }
+	int get_denominator() const;
+    // return the denominator of the fraction
+    
+    void reduce();
+    // reduce this fraction to simplest form. For instance,
+    // 2/4 will be reduced to 1/2
+    
+    Fraction reciprocal() const;
+    // return the reciprocal of this Fraction
+    
+    // friend functions
+    
+	friend Fraction operator +(const Fraction& f1, const Fraction& f2);
+    // return the sum of f1 and f2,
+    // the result is reduced
+    
+    friend Fraction operator -(const Fraction& f1, const Fraction& f2);
+    // return the difference of f1 and f2,
+    // the result is reduced
+    
+    friend Fraction operator *(const Fraction& f1, const Fraction& f2);
+    // return the product of f1 and f2,
+    // the result is reduced
+    
+    friend Fraction operator /(const Fraction& f1, const Fraction& f2);
+    // return the quotient of f1 and f2,
+    // the result is reduced
+    
+	friend Fraction operator -(const Fraction& f);
+    // return the negation of f
+    
+	friend bool operator < (const Fraction& f1, const Fraction& f2);
+    // return true if f1 is less than f2.
+    // False otherwise
+    
+    friend bool operator > (const Fraction& f1, const Fraction& f2);
+    // return true if f1 is greater than f2.
+    // False otherwise
+    
+    friend bool operator <= (const Fraction& f1, const Fraction& f2);
+    // return true if f1 is less or equal to f2.
+    // False otherwise
+    
+    friend bool operator >= (const Fraction& f1, const Fraction& f2);
+    // return true if f1 is greater or equal to f2.
+    // False otherwise
+    
+    friend bool operator == (const Fraction& f1, const Fraction& f2);
+    // return true if f1 is equal to f2.
+    // False otherwise
+    
+    friend bool operator != (const Fraction& f1, const Fraction& f2);
+    // return true if f1 is not equal to f2.
+    // False otherwise
+    
+	friend istream& operator >> (istream& in, Fraction& f);
+    // input f in the form of a/b, where b cannot be zero. Also,
+    // if b is negative, the Fraction will change b to be positive.
+    // So, again, 1/-3 will be changed to -1/3
+    
+	friend ostream& operator << (ostream& out, Fraction& f);
+    // output a Fraction f in form of a/b
+
+private:
+	int num; // numerator of the fraction
+	int den; // denominator of the fraction
+    
+	int gcd();
+    // A prvate function that is used to find the gcd of numerator
+    // and denominator by using Euclidean Algorithm
+};
+
+// all following test functions are given
+
+double test1();
+// test all constructors and two get methods.
+// All these functions worth 1.5 points
+
+double test2();
+// test neg, reduce, and reciprocal functions.
+// All these functions worth 1.5 points
+
+double test3();
+// test add, sub, mul, and div functions.
+// All these functions worth 3 points
+
+double test4();
+// test less, greater, equal, less_or_equal, greater_or_equal,
+// not_equal. All these functions worth 2 points
+
+double test5();
+// test input and output function. This two functions worth 1 points
+
+int main()
+{
+	double totalScore = 0.0;
+	
+	cout <<"Let's see your grade. \n\n";
+	cout << endl;
+
+	// Test constructors, and get functions
+	totalScore += test1();
+	cout << "Your points so far is " << totalScore << "\n\n";
+	cout << endl;
+    
+	// Test neg, reciprocal, and reduce functions
+	totalScore += test2();
+	cout << "Your points so far is " << totalScore << "\n\n";
+	cout << endl;
+
+	// Test +, -, *, / operators
+	totalScore += test3();
+	cout << "Your points so far is " << totalScore << "\n\n";
+	cout << endl;
+
+	// Test all >, <, >=, <=, ==, != operators
+	totalScore += test4();
+	cout << "Your points so far is " << totalScore << "\n\n";
+	cout << endl;
+
+	// Test >> and << operators
+	totalScore += test5();
+	cout << "Your points so far is " << totalScore << "\n\n";
+	cout << endl;
+
+	cout << "If you turn in your program to Ms. Lang now, your will get " << totalScore << " out of 9.\n";
+	cout << "Ms. Lang will read your program and decide if you will get 1 more point for program style.\nGoodybye!";
+	
+	return 0;
+	
 }
-} while(choice == 'Y' || choice == 'y');
+
+
+
+
+// implement all class member functions here, gcd function is given
+
+Fraction::Fraction(int a, int b)
+{
+    num = a;
+    den = b;
+    if(den < 0){
+        num *= -1;
+        den *= -1;
+        }
+}
+// generate a fraction which is a/b
+
+Fraction::Fraction(int a)
+{
+    num = a;
+    den = 1;
+}
+// generate a fraction which is a/1
+
+Fraction::Fraction()
+{
+    num = 0;
+    den = 1;
+}
+// generate a fraction which is 0/1. i.e 0
+
+int Fraction::gcd()
+{
+	if(num == 0) return 1;
+
+	int a = max(abs(num), abs(den));
+	int b = min(abs(num), abs(den));
+
+	while(b != 0)
+	{
+		int result = a%b;
+		a = b;
+		b = result;
+	}
+
+	return a;
+}
+
+int Fraction::get_numerator() const
+{
+    return num;
+}
+// return the numerator of the fraction
+
+int Fraction::get_denominator() const
+{
+    return den;
+}
+// return the denominator of the fraction
+
+void Fraction::reduce()
+{
+    int a = gcd();
+    den /= a;
+    num /= a;
+}
+// reduce this fraction to simplest form. For instance,
+// 2/4 will be reduced to 1/2
+
+Fraction Fraction::reciprocal() const
+{
+    return Fraction(den, num);
+}
+// return the reciprocal of this Fraction
+
+Fraction operator +(const Fraction& f1, const Fraction& f2)
+{
+    int den = f1.den * f2.den;
+    int num = f1.num * f2.den + f1.den * f2.num;
+    Fraction result = Fraction(num, den);
+    result.reduce();
+    return result;
+}
+// return the sum of f1 and f2,
+// the result is reduced
+
+Fraction operator -(const Fraction& f1, const Fraction& f2)
+{
+    int num = f1.num * f2.den - f1.den * f2.num;
+    int den = f1.den * f2.den;
+    Fraction result = Fraction(num, den);
+    result.reduce();
+    return result;
+}
+// return the difference of f1 and f2,
+// the result is reduced
+
+Fraction operator *(const Fraction& f1, const Fraction& f2)
+{
+    int num = f1.num * f2.num;
+    int den = f1.den * f2.den;
+    Fraction result = Fraction(num, den);
+    result.reduce();
+    return result;
+}
+// return the product of f1 and f2,
+// the result is reduced
+
+Fraction operator /(const Fraction& f1, const Fraction& f2)
+{
+    int num = f1.num * f2.den;
+    int den = f1.den * f2.num;
+    Fraction result = Fraction(num, den);
+    result.reduce();
+    return result;
+}
+// return the quotient of f1 and f2,
+// the result is reduced
+
+Fraction operator -(const Fraction& f)
+{
+    return Fraction(-(f.num), f.den);
+}
+// return the negation of f
+
+bool operator < (const Fraction& f1, const Fraction& f2)
+{
+    Fraction f = f1 - f2;
+    return f.num < 0;
+}
+// return true if f1 is less than f2.
+// False otherwise
+
+bool operator > (const Fraction& f1, const Fraction& f2)
+{
+    return !((f1.num * f2.den < f2.num * f1.den) || (f1.num * f2.den == f2.num * f1.den));
+}
+// return true if f1 is greater than f2.
+// False otherwise
+
+bool operator <= (const Fraction& f1, const Fraction& f2)
+{
+    if(f1 < f2 || f1 == f2)
+        return true;
+    else
+        return false;
+}
+// return true if f1 is less or equal to f2.
+// False otherwise
+
+bool operator >= (const Fraction& f1, const Fraction& f2)
+{
+    if(!(f1 <= f2) || f1 == f2)
+        return true;
+    else
+        return false;
+}
+// return true if f1 is greater or equal to f2.
+// False otherwise
+
+bool operator == (const Fraction& f1, const Fraction& f2)
+{
+    return (f1.num * f2.den == f2.num * f1.den);
+}
+// return true if f1 is equal to f2.
+// False otherwise
+
+bool operator != (const Fraction& f1, const Fraction& f2)
+{
+    return !(f1.num * f2.den == f2.num * f1.den);
+}
+// return true if f1 is not equal to f2.
+// False otherwise
+
+istream& operator >> (istream& in, Fraction& f)
+{
+    int num, den;
+    char slash;
+    cin >> num;
+    cin >> slash; // reads in a '/' char
+    cin >> den;
+    f = Fraction(num, den);
+    return in;
+}
+// input f in the form of a/b, where b cannot be zero. Also,
+// if b is negative, the Fraction will change b to be positive.
+// So, again, 1/-3 will be changed to -1/3
+
+ostream& operator << (ostream& out, Fraction& f)
+{
+    out << f.num << "/" << f.den;
+    return out;
+}
+// output a Fraction f in form of a/b
+
+
+// test all constructors and two get methods.
+// All these functions worth 1 points
+double test1()
+{
+	double result = 1.5;
+	// Test no argument constructor
+	Fraction f1; // the fraction should be 0/1
+	if(f1.get_numerator() != 0 || f1.get_denominator() != 1)
+	{
+		cout << "The constructor with no argument was wrong.\n";
+		result -= 0.5;
+	}
+	// Test one argument constructor
+	Fraction f2(2); // the fraction should shoule be 2/1
+	if(f2.get_numerator() != 2 || f2.get_denominator() != 1)
+	{
+		cout << "The constructor with one argument was wrong.\n";
+		result -= 0.5;
+	}
+	// Test two arguments constructors
+	Fraction f3(3, -4); // the fraction should be -3/4
+	if(f3.get_numerator() != -3 || f3.get_denominator() != 4)
+	{
+		cout << "The constructor with two argument was wrong. Make sure that the denomunator always positive.\n";
+		result -= 0.5;
+	}
+	// finish test
+	if(result < 1.5 && result > 0)
+		cout << "Test 1 partially failed. You got " << result << " more points\n";
+	else if(result > 1.4)
+		cout << "Test 1 fully passed. You got 1.5 more points\n";
+	else
+		cout << "Test 1 completely failed. You may check your constructors and get methods\n";
+	return result;
+}
+
+// test neg, reduce, and reciprocal functions.
+// All these functions worth 1.5 points
+double test2()
+{
+	double result = 1.5;
+	Fraction f1(12, -15), f2(2, 3), f3, f4;
+	// Test neg
+	f3 = -f1; // f3 is 12/15
+	f4 = -f2; // f4 is -2/3
+	if(f3.get_numerator() != 12 || f3.get_denominator() != 15
+		|| f4.get_numerator() != -2 || f4.get_denominator() != 3)
+	{
+		cout <<"The negation function was wrong.\n";
+		result -= 0.5;
+	}
+	// Test reciprocal
+	f3 = f1.reciprocal(); // f3 is -15/12
+	f4 = f2.reciprocal(); // f4 is 3/2
+	if(f3.get_numerator() != -15 || f3.get_denominator() != 12
+		|| f4.get_numerator() != 3 || f4.get_denominator() != 2)
+	{
+		cout <<"The reciprocal function was wrong.\n";
+		result -= 0.5;
+	}
     
-    return 0;
+	// Test reduce
+	f1.reduce(); // f1 is -4/5
+	f2.reduce(); // f2 is 2/3
+	if(f1.get_numerator() != -4 || f1.get_denominator() != 5 || f2. get_numerator() != 2 || f2.get_denominator() != 3)
+	{
+		cout <<"The reduce function was wrong.\n";
+		result -= 0.5;
+	}
+	// finish test
+	if(result < 1.5 && result > 0)
+		cout << "Test 2 partially failed. You got " << result << " more points\n";
+	else if(result > 1.4)
+		cout << "Test 2 fully passed. You got 1.5 more points\n";
+	else
+		cout << "Test 2 completely failed. \n";
+	return result;
+}
+
+// test +, -, *, and / operators.
+// All these functions worth 3 points
+double test3()
+{
+	Fraction f1(-1, 2), f2(3, 5), f;
+	double result = 3.0;
+	// Test +
+	f = f1 + f2; // f is -1/2+3/5 = 1/10
+	if(f.get_numerator() != 1 || f.get_denominator() != 10)
+	{
+		cout <<"The add function was wrong.\n";
+		result -= 1.0;
+	}
+	// Test subtraction
+	f = f1 - f2; // f is -1/2 - 3/5 = -11/10
+	if(f.get_numerator() != -11 || f.get_denominator() != 10)
+	{
+		cout <<"The sub function was wrong.\n";
+		result -= 0.5;
+	}
+	// Test multiplication
+	f = f1 * f2; // f is -3/10
+	if(f.get_numerator() != -3 || f.get_denominator() != 10)
+	{
+		cout <<"The mul function was wrong.\n";
+		result -= 1.0;
+	}
+	// Test division
+	f = f1 / f2; // f is -5/6
+	if(f.get_numerator() != -5 || f.get_denominator() != 6)
+	{
+		cout <<"The div function was wrong.\n";
+		result -= 0.5;
+	}
+	// finish test
+	if(result < 3.0 && result > 0)
+		cout << "Test 3 partially failed. You got " << result << " more points\n";
+	else if(result > 2.9)
+		cout << "Test 3 fully passed. You got 3.0 more points\n";
+	else
+		cout << "Test 3 completely failed. \n";
+	return result;
+
+}
+
+// test less, greater, equal, less_or_equal, greater_or_equal,
+// not_equal. All these functions worth 2 points
+double test4()
+{
+	
+	Fraction f1(-1, 2), f2(3, 5), f3(2, -4);
+	double result = 2.0;
+	// Test <
+	if(!(f1 < f2) || f1 < f3 || f2 < f3)
+	{
+		cout <<"The < operator was wrong.\n";
+		result -= 0.5;
+	}
+	// Test >
+	if(f1 > f2 || !(f2 > f1) || f1 > f3)
+	{
+		cout <<"The > operator was wrong.\n";
+		result -= 0.5;
+	}
+	// Test ==
+	if(f1 == f2 || !(f1 == f3) || f2 == f3)
+	{
+		cout <<"The equal function was wrong.\n";
+		result -= 0.5;
+	}
+	// Test <=
+	if(!(f1 <= f2) || !(f1 <= f3) || f2 <= f3)
+	{
+		cout <<"The less_or_equal function was wrong.\n";
+		result -= 0.5;
+	}
+	// Test >=
+	if(f1 >= f2 || !(f1 >= f3) || !(f2 >= f3))
+	{
+		cout <<"The greater_or_equal function was wrong.\n";
+		result -= 0.5;
+	}
+	// Test !=
+	if(!(f1 != f2) || f1 != f3 || !(f2 != f3))
+	{
+		cout <<"The not_equal function was wrong.\n";
+		result -= 0.5;
+	}
+
+	// finish test
+	if(result < 2.0 && result > 0)
+		cout << "Test 4 partially failed. You got " << result << " more points\n";
+	else if(result > 1.9)
+		cout << "Test 4 fully passed. You got 2.0 more points\n";
+	else
+		cout << "Test 4 completely failed. \n";
+	return max(result, 0.0); // the student will not get negative points for any test
+}
+
+// test input and output function. This two functions worth 1 points
+double test5()
+{
+	double result = 1.0;
+	Fraction f;
+	cout << "This test has to be interactive, please follow the instruction\n";
+	cout << "Enter a fraction exactly as 3/-4:";
+    cin >> f;
+	if(f.get_denominator() != 4 || f.get_numerator() != -3)
+	{
+		cout << "The input function is not correct\n";
+		result -= 0.5;
+	}
+	Fraction f1(3, -4);
+	cout << f1;
+	cout << "\nDoes the previous line show you -3/4? Y or N: ";
+	char choice;
+	cin >> choice;
+	if(choice != 'y' && choice != 'Y')
+	{
+		cout << "The output function is not correct\n";
+		result -= 0.5;
+	}
+	// finish test
+	if(result < 1.0 && result > 0)
+		cout << "Test 5 partially failed. You got " << result << " more points\n";
+	else if(result > 0.9)
+		cout << "Test 5 fully passed. You got 1.0 more points\n";
+	else
+		cout << "Test 5 completely failed. \n";
+	return result;
 }
